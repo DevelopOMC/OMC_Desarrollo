@@ -1,0 +1,4 @@
+node_modules
+out/*
+!out/aptoa-promo-30s-web.mp4
+.DS_Store

@@ -1,0 +1,26 @@
+{
+  "name": "aptoa-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vídeo promocional de 30 segundos de Aptoa (aptoa.es) creado con Remotion",
+  "scripts": {
+    "dev": "remotion studio",
+    "soundtrack": "python3 scripts/generate_soundtrack.py",
+    "render": "remotion render AptoaPromo out/aptoa-promo-30s.mp4",
+    "still": "remotion still AptoaPromo out/still.png",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.529",
+    "@remotion/fonts": "4.0.529",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@fontsource-variable/plus-jakarta-sans": "^5.2.5",
+    "@fontsource/caveat": "^5.2.5",
+    "@types/react": "19.1.0",
+    "typescript": "^5.8.3"
+  }
+}

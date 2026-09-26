@@ -1,0 +1,95 @@
+{
+  "fps": 30,
+  "duration": 900,
+  "bpm": 120,
+  "gridStart": 135,
+  "grooveStart": 195,
+  "scenes": {
+    "hook": {"from": 0, "to": 135},
+    "brand": {"from": 133, "to": 293},
+    "import": {"from": 277, "to": 383},
+    "driveiq": {"from": 367, "to": 503},
+    "routebook": {"from": 487, "to": 623},
+    "app": {"from": 607, "to": 713},
+    "proof": {"from": 697, "to": 803},
+    "cta": {"from": 783, "to": 900}
+  },
+  "transitions": {
+    "brandToImport": {"at": 285, "frames": 16, "kind": "whipLeft"},
+    "importToDrive": {"at": 375, "frames": 16, "kind": "whipUp"},
+    "driveToRoute": {"at": 495, "frames": 16, "kind": "whipLeft"},
+    "routeToApp": {"at": 615, "frames": 16, "kind": "zoomThrough"},
+    "appToProof": {"at": 705, "frames": 16, "kind": "whipUp"},
+    "proofToCta": {"at": 790, "frames": 14, "kind": "iris"}
+  },
+  "hook": {
+    "props": [-6, -3, 0, 3, 5, 8, 10, 13, 15, 18, 20, 23],
+    "title": 4,
+    "papeles": 30,
+    "excel": 60,
+    "whatsapps": 90,
+    "dotBounce": 101,
+    "irisStart": 106,
+    "irisEnd": 134
+  },
+  "brand": {
+    "impact": 135,
+    "wordmark": 145,
+    "tagline": 158,
+    "toHub": 195,
+    "headline": 206,
+    "nodes": [208, 215, 223, 230]
+  },
+  "import": {
+    "title": 288,
+    "chips": [292, 296, 300],
+    "absorb": [304, 308, 312],
+    "countStart": 314,
+    "countEnd": 350,
+    "strike": 334,
+    "done": 352
+  },
+  "driveiq": {
+    "title": 378,
+    "kpiStart": 384,
+    "kpiEnd": 414,
+    "rows": [394, 399, 404],
+    "chips": [418, 424],
+    "highlight": 428,
+    "alert": 434
+  },
+  "routebook": {
+    "title": 498,
+    "slotsStart": 500,
+    "request": 540,
+    "cursorStart": 540,
+    "click": 558,
+    "confirm": 561,
+    "toast": 567
+  },
+  "app": {
+    "title": 612,
+    "phones": [613, 617, 621],
+    "ring": 630,
+    "answer": 648,
+    "tap": 663,
+    "booked": 676
+  },
+  "proof": {
+    "countStart": 707,
+    "countEnd": 741,
+    "caption": 716,
+    "stars": [722, 725, 728, 731, 734],
+    "card": 713,
+    "quote": 721
+  },
+  "cta": {
+    "impact": 795,
+    "headline": 802,
+    "sub": 820,
+    "button": 828,
+    "checks": [836, 840, 844, 848],
+    "cursor": 842,
+    "click": 858
+  }
+}
