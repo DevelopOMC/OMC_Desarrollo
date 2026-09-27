@@ -20,12 +20,28 @@ Render final: `out/aptoa-promo-30s-web.mp4`
 | 0:23.5 | Prueba social | +320 autoescuelas · caso de éxito de Laura Fernández |
 | 0:26.5 | CTA | «Digitaliza tu autoescuela en segundos.» · Empieza gratis en aptoa.es |
 
+## Voz en off
+
+Locución en español de España generada con Kokoro-82M (licencia Apache-2.0,
+voz `ef_dora`) y mezclada con *ducking* sobre la música:
+
+> Tu autoescuela, sin papeles, ni Excel, ni WhatsApps. · Esto es Aptoa. ·
+> Todo lo que tu academia necesita, conectado. · Importa tus datos en segundos,
+> no en semanas. · Descubre qué alumnos van a abandonar, antes de que ocurra. ·
+> Tus alumnos reservan desde el móvil, y tú confirmas con un clic. · Con su app,
+> preparan el examen y aprueban de verdad. · Ya son más de trescientas veinte
+> autoescuelas. · Pruébalo gratis en aptoa.es.
+
+Las acciones clave están sincronizadas con la voz: el tachado de «semanas», el
+clic de «confirmas con un clic» y el clic final sobre «aptoa.es».
+
 ## Uso
 
 ```bash
 npm install
 npm run dev          # Remotion Studio
-npm run soundtrack   # regenera public/audio/aptoa-soundtrack.wav (Python 3 + numpy + scipy)
+npm run voiceover    # regenera public/audio/vo/*.wav (pip install kokoro-onnx soundfile)
+npm run soundtrack   # música + SFX + voz → public/audio/aptoa-soundtrack.wav (numpy + scipy)
 npm run render       # out/aptoa-promo-30s.mp4
 ```
 
@@ -37,6 +53,7 @@ npm run render       # out/aptoa-promo-30s.mp4
 - `src/scenes/` — una escena por archivo.
 - `src/components/` — logotipo vectorial, texto con revelado, transiciones con
   desenfoque de movimiento, dispositivos y UI.
+- `scripts/generate_voiceover.py` — locución (Kokoro TTS).
 - `scripts/generate_soundtrack.py` — música (120 BPM) y diseño sonoro sintetizados
-  desde cero, sin samples de terceros.
+  desde cero, sin samples de terceros, más la mezcla de la voz.
 - `scripts/stills.mjs` — renderiza fotogramas sueltos para revisión.

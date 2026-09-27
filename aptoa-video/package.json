@@ -5,6 +5,7 @@
   "description": "Vídeo promocional de 30 segundos de Aptoa (aptoa.es) creado con Remotion",
   "scripts": {
     "dev": "remotion studio",
+    "voiceover": "python3 scripts/generate_voiceover.py",
     "soundtrack": "python3 scripts/generate_soundtrack.py",
     "render": "remotion render AptoaPromo out/aptoa-promo-30s.mp4",
     "still": "remotion still AptoaPromo out/still.png",

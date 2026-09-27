@@ -652,9 +652,63 @@ sfx.add(pop(800, 260, 0.12), fr(Cc['button'] + 1), 0.28)
 for j, f in enumerate(Cc['checks'][:3]):
     plucks.add(pluck([79, 84, 88][j], 0.4, bright=1.4, decay=0.15), fr(f + 1), 0.18, pan=[-0.4, 0, 0.4][j])
 sfx.add(mouse_click(), fr(Cc['click']), 0.45, pan=0.25)
-# sintonía final (sonic logo) al pulsar el botón
+# ------------------------------------------------------------------ voz en off
+from scipy.io import wavfile  # noqa: E402
+
+VO_DIR = os.path.join(ROOT, 'public', 'audio', 'vo')
+vo = np.zeros(N)
+vo_mask = np.zeros(N)
+vo_end = 0.0
+
+
+def peaking(x, f0, gain_db, q=0.9):
+    a = 10 ** (gain_db / 40)
+    w = 2 * np.pi * f0 / SR
+    al = np.sin(w) / (2 * q)
+    b = [1 + al * a, -2 * np.cos(w), 1 - al * a]
+    aa = [1 + al / a, -2 * np.cos(w), 1 - al / a]
+    return signal.lfilter(b, aa, x)
+
+
+def compress(x, thr_db=-20, ratio=3.0, att=0.004, rel=0.12):
+    env = np.abs(signal.hilbert(x))
+    sm = np.zeros_like(env)
+    ka, kr = np.exp(-1 / (att * SR)), np.exp(-1 / (rel * SR))
+    lvl = 0.0
+    for i, e in enumerate(env):
+        k = ka if e > lvl else kr
+        lvl = k * lvl + (1 - k) * e
+        sm[i] = lvl
+    db = 20 * np.log10(sm + 1e-9)
+    over = np.maximum(0, db - thr_db)
+    return x * 10 ** (-(over - over / ratio) / 20)
+
+
+for key, frame in CUES.get('vo', {}).items():
+    path = os.path.join(VO_DIR, f'{key}.wav')
+    if not os.path.exists(path):
+        continue
+    sr_v, v = wavfile.read(path)
+    v = v.astype(np.float64)
+    if v.dtype.kind == 'i' or np.max(np.abs(v)) > 2:
+        v /= 32768.0
+    if v.ndim > 1:
+        v = v.mean(axis=1)
+    v = signal.resample_poly(v, SR, sr_v)
+    v = filt(v, 'hp', 85)
+    v = peaking(v, 3200, 3.0)
+    v = peaking(v, 220, -2.0, 1.2)
+    v = compress(v / (np.max(np.abs(v)) + 1e-9))
+    v /= np.sqrt(np.mean(v[np.abs(v) > 0.02] ** 2)) + 1e-9  # RMS de voz = 1
+    i0 = int(round(fr(frame) * SR))
+    n = min(len(v), N - i0)
+    vo[i0:i0 + n] += v[:n]
+    vo_mask[max(0, i0 - int(0.08 * SR)): min(N, i0 + n + int(0.18 * SR))] = 1
+    vo_end = max(vo_end, (i0 + n) / SR)
+
+# sintonía final (sonic logo) cuando termina la locución
 for j, m in enumerate([79, 84, 88, 91]):
-    bells.add(bell(m, 2.2, index=1.3, ratio=3.5, decay=0.8), fr(Cc['click']) + 0.04 + j * 0.09, 0.14, pan=-0.3 + j * 0.2)
+    bells.add(bell(m, 2.2, index=1.3, ratio=3.5, decay=0.8), vo_end + 0.03 + j * 0.08, 0.11, pan=-0.3 + j * 0.2)
 
 # ------------------------------------------------------------------ mezcla
 t_axis = np.arange(N) / SR
@@ -687,9 +741,17 @@ mix += fx.buf + reverb(fx.buf, hall, 0.2)
 # limpieza de graves y brillo general
 mix = signal.sosfilt(sos('hp', 28), mix, axis=1)
 
+# ducking: la música baja ~7 dB mientras habla la locutora
+win = int(0.12 * SR)
+duck_env = np.convolve(vo_mask, np.hanning(win) / np.sum(np.hanning(win)), mode='same')
+mix *= 1 - 0.55 * duck_env
+bed_rms = np.sqrt(np.mean(mix[:, vo_mask > 0] ** 2))
+vo_st = np.vstack([vo, vo]) * bed_rms * 10 ** (9 / 20)
+mix += vo_st + reverb(vo_st, room, 0.05)
+
 # fundido final y micro-fades
 fade = np.ones(N)
-f_out = int(1.1 * SR)
+f_out = int(0.7 * SR)
 fade[-f_out:] = np.linspace(1, 0, f_out) ** 1.5
 fade[: int(0.004 * SR)] = np.linspace(0, 1, int(0.004 * SR))
 mix *= fade
@@ -702,8 +764,6 @@ mix *= peak / (np.max(np.abs(mix)) + 1e-9)
 
 out = (mix.T * 32767).astype(np.int16)
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
-from scipy.io import wavfile  # noqa: E402
-
 wavfile.write(OUT, SR, out)
 rms = np.sqrt(np.mean(mix ** 2))
 print(f'OK {OUT}  dur={N / SR:.2f}s  rms={20 * np.log10(rms):.1f} dBFS')

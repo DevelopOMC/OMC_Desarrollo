@@ -46,7 +46,7 @@
     "absorb": [304, 308, 312],
     "countStart": 314,
     "countEnd": 350,
-    "strike": 334,
+    "strike": 355,
     "done": 352
   },
   "driveiq": {
@@ -61,11 +61,11 @@
   "routebook": {
     "title": 498,
     "slotsStart": 500,
-    "request": 540,
-    "cursorStart": 540,
-    "click": 558,
-    "confirm": 561,
-    "toast": 567
+    "request": 552,
+    "cursorStart": 552,
+    "click": 590,
+    "confirm": 593,
+    "toast": 598
   },
   "app": {
     "title": 612,
@@ -89,7 +89,21 @@
     "sub": 820,
     "button": 828,
     "checks": [836, 840, 844, 848],
-    "cursor": 842,
-    "click": 858
+    "cursor": 830,
+    "click": 850
+  },
+  "vo": {
+    "l1a": 3,
+    "l1b": 30,
+    "l1c": 60,
+    "l1d": 90,
+    "l2a": 150,
+    "l2b": 203,
+    "l3": 288,
+    "l4": 386,
+    "l5": 497,
+    "l6": 617,
+    "l7": 712,
+    "l8": 810
   }
 }
