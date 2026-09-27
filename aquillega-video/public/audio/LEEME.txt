@@ -1,0 +1,9 @@
+MÚSICA DEL ANUNCIO
+==================
+
+Coloca aquí la pista definitiva (up-tempo corporativa, con licencia) con el nombre:
+
+    musica-corporativa.mp3
+
+El archivo que hay ahora es un placeholder generado por código
+(npm run generate:music). Se carga en src/audio/Soundtrack.tsx (MUSIC_FILE).

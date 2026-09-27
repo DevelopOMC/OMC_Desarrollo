@@ -1,0 +1,40 @@
+{
+  "name": "aquillega-video",
+  "version": "1.0.0",
+  "description": "Anuncio en motion graphics de AquíLLega para negocios (Remotion)",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@remotion/animation-utils": "4.0.529",
+    "@remotion/cli": "4.0.529",
+    "@remotion/google-fonts": "4.0.529",
+    "@remotion/media": "4.0.529",
+    "@remotion/paths": "4.0.529",
+    "lucide-react": "1.48.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.529",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.19.0",
+    "prettier": "3.8.1",
+    "topojson-client": "3.1.0",
+    "typescript": "5.9.3",
+    "world-atlas": "2.0.2"
+  },
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion bundle",
+    "render:vertical": "remotion render NegocioAd out/aquillega-negocio-9x16.mp4",
+    "render:horizontal": "remotion render NegocioAd-16x9 out/aquillega-negocio-16x9.mp4",
+    "render": "npm run render:vertical && npm run render:horizontal",
+    "generate:map": "node scripts/generate-spain-map.mjs && prettier --write src/data/spain-map.ts",
+    "generate:music": "node scripts/generate-placeholder-music.mjs",
+    "upgrade": "remotion upgrade",
+    "lint": "eslint src && tsc"
+  }
+}
